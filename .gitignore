@@ -3,3 +3,6 @@ doc/_build
 *.swo
 *.pyc
 prof
+
+logs/*
+./run_kakuro_gen.sh

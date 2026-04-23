@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: pykakuro
+Version: 0.1.0
+Summary: Kakuro puzzle generator and solver
+Author: Brandon Thomson, Anshuman Sabath
+License: AGPL-3.0-only
+Project-URL: Homepage, https://github.com/data-hound/pykakuro
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown

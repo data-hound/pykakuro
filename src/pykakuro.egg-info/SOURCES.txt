@@ -1,0 +1,14 @@
+README
+pyproject.toml
+src/pykakuro/__init__.py
+src/pykakuro/generate.py
+src/pykakuro/kakuro.py
+src/pykakuro/puzzles.py
+src/pykakuro/svg.py
+src/pykakuro.egg-info/PKG-INFO
+src/pykakuro.egg-info/SOURCES.txt
+src/pykakuro.egg-info/dependency_links.txt
+src/pykakuro.egg-info/top_level.txt
+src/util/__init__.py
+src/util/convert_typed.py
+test/tests.py
