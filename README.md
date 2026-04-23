@@ -8,7 +8,7 @@ extent) Kakuro puzzles.
 
 Can be installed using
 ```
-pip install git+https
+pip install git+https://github.com/data-hound/pykakuro/
 ```
 
 ```
