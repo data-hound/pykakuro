@@ -1,0 +1,35 @@
+{
+ "ortools": "9.15.6755",
+ "cases": [
+  {
+   "family": "blob_run",
+   "size": 9,
+   "k": 0,
+   "sha256": "3599e2b45cd8a6e42de90527e09a42b362ff525d783da9468b8429f00619b4b7"
+  },
+  {
+   "family": "blob_run",
+   "size": 11,
+   "k": 1,
+   "sha256": "9a283a150ee4c689490448ae646966969e365fa107473f506246d6b6cc942f1c"
+  },
+  {
+   "family": "blob_run",
+   "size": 15,
+   "k": 13,
+   "sha256": "f7bc528976e2e19075916bccd09b3824ab793ec0b986fe4c92920812489d0cb6"
+  },
+  {
+   "family": "symrep_rc",
+   "size": 9,
+   "k": 1,
+   "sha256": "75b28f1b8e0f42e407dd138cdb93684b06c3a0af529503cd01ecb54f4153479f"
+  },
+  {
+   "family": "symrep_run",
+   "size": 9,
+   "k": 1,
+   "sha256": "3d9c14e9362120b9fe4ceeb28effa9d8c3b802d33df6dd51c82af98824b77625"
+  }
+ ]
+}

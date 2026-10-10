@@ -10,9 +10,9 @@ Per (family, size), candidates in seed order:
 Then: puzzle_id (xxh64 of the solution), deterministic difficulty columns (tertile cut points within the family/size, plus the percentile of the
 puzzle in the v2 pool of the same size so families can be compared on one scale), and the exact nearest-neighbour audit against v2 train/validation/test
 (brute force, both orientations; reported, and the build fails if any pack puzzle is within --gate_frac of the cells of a v2 puzzle).
-The generator seed is NOT exposed in the staged files (as in v2); it goes to a private manifest next to the staging directory.
+The generator seed is NOT exposed in the staged files (as in v2). The seed manifest, the gate cache (it holds the seed index k) and the build log go to a SIBLING directory (--private, default <out>_private), never inside the staging directory.
 
-Resumable: gate results are cached per chunk in <staging>/_gate_cache. Resource cap: --workers processes (default 8) at the caller's nice level.
+Resumable: gate results are cached per chunk in <private>/_gate_cache. Resource cap: --workers processes (default 8) at the caller's nice level.
 Run: python -I pack/build_pack.py --cand DIR --out STAGING_DIR --N 3000 --workers 8
 """
 import argparse, glob, json, os, sys, time
@@ -82,9 +82,9 @@ def nn_audit(pack_puzzles, ref_puzzles, workers, chunk=8):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--cand", required=True); ap.add_argument("--out", required=True); ap.add_argument("--N", type=int, default=3000)
     ap.add_argument("--workers", type=int, default=8); ap.add_argument("--gate_frac", type=float, default=0.10); ap.add_argument("--chunk", type=int, default=800)
-    ap.add_argument("--only", nargs="*", default=None, help="restrict to family_size names, e.g. symrep_run_15")
+    ap.add_argument("--private", default=None, help="directory for the seed manifest and gate cache (default: <out>_private)"); ap.add_argument("--only", nargs="*", default=None, help="restrict to family_size names, e.g. symrep_run_15")
     a = ap.parse_args()
-    os.makedirs(a.out + "/_gate_cache", exist_ok=True)
+    priv = a.private or a.out.rstrip("/") + "_private"; os.makedirs(priv + "/_gate_cache", exist_ok=True)
     report = {}
     v2 = {}
     for n in (9, 11, 15):
@@ -106,7 +106,7 @@ def main():
         res = []; t0 = time.time()
         with Pool(a.workers, maxtasksperchild=200) as pool:
             for c0 in range(0, len(cand), a.chunk):
-                cf = f"{a.out}/_gate_cache/{name}_{c0:07d}.parquet"
+                cf = f"{priv}/_gate_cache/{name}_{c0:07d}.parquet"
                 if os.path.exists(cf): g = pd.read_parquet(cf)
                 else:
                     ch = cand.iloc[c0:c0 + a.chunk]
@@ -147,7 +147,7 @@ def main():
                    prop_fixed_mean=float(keep.prop_fixed_frac.mean()), secs=round(time.time() - t0))
         report[name] = rep; print(name, json.dumps(rep), flush=True)
     json.dump(report, open(a.out + "/pack_report.json", "w"), indent=1)
-    if manifest: pd.concat(manifest).to_parquet(a.out + "/PRIVATE_seed_manifest.parquet")
+    if manifest: pd.concat(manifest).to_parquet(priv + "/PRIVATE_seed_manifest.parquet")
     print("DONE", flush=True)
 
 

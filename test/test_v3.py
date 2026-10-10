@@ -131,6 +131,16 @@ class TestFamilies(unittest.TestCase):
         for r in (rc, run):
             self.assertEqual(r["meta"]["min_run_len"] >= 2, True)
 
+    def test_pack_seeds_regenerate_the_released_puzzles(self):
+        """(family, size, k) -> sha256 of the puzzle recorded when the pack was built. The repair loop branches on which two solutions CP-SAT
+        returns, so a different ortools version may regenerate different puzzles; this test makes that visible."""
+        fx = fixture("fixtures_v3_seeds.json")
+        import ortools
+        for c in fx["cases"]:
+            r = F.generate(c["family"], c["size"], F.seed_for(c["family"], c["size"], c["k"]))
+            got = hashlib.sha256(r["puzzle"].encode()).hexdigest() if r["status"] == "ok" else r["status"]
+            self.assertEqual(got, c["sha256"], f"{c}: fixtures were built with ortools {fx['ortools']}, installed {ortools.__version__}")
+
     def test_seed_ranges_are_disjoint(self):
         ranges = [(F.seed_for(f, s, 0), F.seed_for(f, s, 999_999)) for f in F.FAMILIES for s in (9, 11, 15)]
         ranges.sort()

@@ -1,0 +1,126 @@
+{
+ "cross_config": {
+  "9": {
+   "configs": [
+    "blob_run_grid9",
+    "symrep_rc_grid9",
+    "symrep_run_grid9"
+   ],
+   "puzzles": 9000,
+   "dup_puzzle_id": 0,
+   "dup_solution": 0,
+   "dup_canonical": 0
+  },
+  "11": {
+   "configs": [
+    "blob_run_grid11",
+    "symrep_rc_grid11",
+    "symrep_run_grid11"
+   ],
+   "puzzles": 9000,
+   "dup_puzzle_id": 0,
+   "dup_solution": 0,
+   "dup_canonical": 0
+  },
+  "15": {
+   "configs": [
+    "blob_run_grid15",
+    "symrep_run_grid15"
+   ],
+   "puzzles": 3873,
+   "dup_puzzle_id": 0,
+   "dup_solution": 0,
+   "dup_canonical": 0
+  }
+ },
+ "within_config_nn": {
+  "blob_run_grid11": {
+   "n": 3000,
+   "cells": 121,
+   "min_cells": 60,
+   "min_frac": 0.49586776859504134,
+   "p1_frac": 0.5289256198347108,
+   "median_frac": 0.5867768595041323,
+   "within_5pct": 0,
+   "within_10pct": 0,
+   "within_20pct": 0
+  },
+  "blob_run_grid15": {
+   "n": 3000,
+   "cells": 225,
+   "min_cells": 131,
+   "min_frac": 0.5822222222222222,
+   "p1_frac": 0.6133333333333333,
+   "median_frac": 0.6488888888888888,
+   "within_5pct": 0,
+   "within_10pct": 0,
+   "within_20pct": 0
+  },
+  "blob_run_grid9": {
+   "n": 3000,
+   "cells": 81,
+   "min_cells": 34,
+   "min_frac": 0.41975308641975306,
+   "p1_frac": 0.4691358024691358,
+   "median_frac": 0.5432098765432098,
+   "within_5pct": 0,
+   "within_10pct": 0,
+   "within_20pct": 0
+  },
+  "symrep_rc_grid11": {
+   "n": 3000,
+   "cells": 121,
+   "min_cells": 25,
+   "min_frac": 0.2066115702479339,
+   "p1_frac": 0.2231404958677686,
+   "median_frac": 0.2892561983471074,
+   "within_5pct": 0,
+   "within_10pct": 0,
+   "within_20pct": 0
+  },
+  "symrep_rc_grid9": {
+   "n": 3000,
+   "cells": 81,
+   "min_cells": 13,
+   "min_frac": 0.16049382716049382,
+   "p1_frac": 0.18518518518518517,
+   "median_frac": 0.25925925925925924,
+   "within_5pct": 0,
+   "within_10pct": 0,
+   "within_20pct": 125
+  },
+  "symrep_run_grid11": {
+   "n": 3000,
+   "cells": 121,
+   "min_cells": 26,
+   "min_frac": 0.21487603305785125,
+   "p1_frac": 0.256198347107438,
+   "median_frac": 0.3140495867768595,
+   "within_5pct": 0,
+   "within_10pct": 0,
+   "within_20pct": 0
+  },
+  "symrep_run_grid15": {
+   "n": 873,
+   "cells": 225,
+   "min_cells": 76,
+   "min_frac": 0.3377777777777778,
+   "p1_frac": 0.36444444444444446,
+   "median_frac": 0.4222222222222222,
+   "within_5pct": 0,
+   "within_10pct": 0,
+   "within_20pct": 0
+  },
+  "symrep_run_grid9": {
+   "n": 3000,
+   "cells": 81,
+   "min_cells": 12,
+   "min_frac": 0.14814814814814814,
+   "p1_frac": 0.19753086419753085,
+   "median_frac": 0.25925925925925924,
+   "within_5pct": 0,
+   "within_10pct": 0,
+   "within_20pct": 70
+  }
+ }
+}

@@ -25,6 +25,8 @@ Families with the `run` digit rule do not have it, which is how real Kakuro beha
   cell's digit to another legal digit, or blacken it together with its mirror if the layout stays valid. Sums are recomputed and the puzzle re-checked, up to 150 times.
   The number of steps is stored (`repair_steps`).
 * **Determinism.** One `random.Random(seed)` per puzzle; CP-SAT with one worker and a deterministic-time limit; a `limit` result is a rejection (counted), never a guess.
+  Reproducibility is verified for **ortools 9.15.6755**: 64 sampled released puzzles regenerate identically from their seeds, and `test/fixtures_v3_seeds.json` pins a few. The repair loop branches on which two solutions
+  CP-SAT enumerates, which is not guaranteed across ortools versions, so another version may regenerate different puzzles from the same seed (the released files are what counts, not the seeds).
   Seeds: `families.seed_for(family, size, k)`, disjoint across families and sizes and from the v2 pool (0-549 999) and KK-Shift (2 000 000-3 199 999).
 
 ## Gates (pack/build_pack.py)
@@ -33,6 +35,7 @@ propagation/backtracking solver agrees; CP-SAT block-and-resolve infeasible), ex
 Puzzles on which a solver hits its limit are rejected and counted in `pack_report.json`.
 
 ## Known limits and biases (read before using the pack)
+* **Symmetric configs are less diverse than v2.** Exact within-config nearest-neighbour distances (`pack/audit_pack.py`, `pack_audit.json`): median 26-31 % of cells at 9 and 11 for the symmetric configs (v2 test: 51-56 %), closest pairs 15-16 % at 9x9, and 125 (`symrep_rc`) / 70 (`symrep_run`) 9x9 puzzles with a neighbour within 20 % of the cells. No exact or canonical duplicates anywhere (also none across configs of one size), but the effective sample size is smaller than the puzzle count.
 * Uniqueness is under the standard run-level rules, as in v2.
 * Repaired puzzles are not a uniform sample of "all unique symmetric Kakuro": they are what this repair procedure reaches. The same holds for v2 and its generator.
 * Puzzles on which the own solver exceeds its 200 000-node cap are rejected, which biases the pack toward easier puzzles; the rate is in `pack_report.json`.

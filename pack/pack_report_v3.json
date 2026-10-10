@@ -262,5 +262,8 @@
   "search_nodes_median": 1144.0,
   "prop_fixed_mean": 0.17133501057687942,
   "secs": 89
+ },
+ "_environment": {
+  "ortools": "9.15.6755"
  }
 }
