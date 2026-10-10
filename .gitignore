@@ -6,3 +6,7 @@ prof
 
 logs/*
 ./run_kakuro_gen.sh
+__pycache__/
+analysis/out/
+analysis/logs/
+.set_cache

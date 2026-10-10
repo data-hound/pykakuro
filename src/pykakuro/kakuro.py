@@ -401,7 +401,7 @@ class Kakuro(object):
     if not all_solved:
       raise SolutionInvalidException(f"Unfilled entries found at {unfilled}")
 
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     constraints = _generate_constraints(data, self.x_size, is_entry_square)
 
     # TODO: better error reporting for all of these
@@ -556,8 +556,9 @@ def gen_random(x_size=10, y_size=10, is_solved=True, is_exclusive=True,
   def col(a, x_size, n):
     return a[n:len(a):x_size]
 
-  if seed:
-    random.seed(seed)
+  # A local generator keeps the global RNG untouched. random.Random(seed) yields exactly the stream that
+  # random.seed(seed) did, so every board for seed >= 1 is unchanged; seed 0 used to mean "unseeded" (`if seed:`).
+  rng = random.Random(seed) if seed is not None else random
 
   #s = random.sample(range(1,10),9)
 
@@ -566,10 +567,10 @@ def gen_random(x_size=10, y_size=10, is_solved=True, is_exclusive=True,
   for idx in range(x_size*y_size):
     row_idx = idx//x_size
     col_idx = idx%x_size
-    if random.random() > 0.6:
+    if rng.random() > 0.6:
       # TODO: This works OK for small boards, but not for big ones
       for _ in range(20):
-        val = random.randint(min_val, max_val)
+        val = rng.randint(min_val, max_val)
         if is_exclusive:
           if (val not in row(arr, x_size, row_idx) and
               val not in col(arr, x_size, col_idx)):

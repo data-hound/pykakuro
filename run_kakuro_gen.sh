@@ -2,7 +2,7 @@
 #
 #SBATCH --job-name=kakuroGen                                        # Job name
 #SBATCH --mem=60000                                                 # Job Memomry Request
-#SBATCH -t 3-23:59                                                  # Time limit days-hrs:min:sec
+#SBATCH -t 1-00:59                                                  # Time limit days-hrs:min:sec
 #SBATCH -N 1                                                        # Requested number of nodes (usually just 1)
 #SBATCH -n 12                                                       # Requested number of CPUS
 #SBATCH -p common              # Requested Partition on which the job will be run
@@ -29,4 +29,14 @@ conda info --envs || true
 python -V || true
 echo "Using python: $(which python)"
 
-python /hpc/group/tdunn/asabath/ece790_diffusion/Project/pykakuro/src/pykakuro/generate_dataset.py
+python /hpc/group/tdunn/asabath/ece790_diffusion/Project/pykakuro/src/pykakuro/generate_dataset.py --board_size 9 --start_id 100000 --puzzle_count 250000
+wait
+echo "Starting for boardsize 11"
+python /hpc/group/tdunn/asabath/ece790_diffusion/Project/pykakuro/src/pykakuro/generate_dataset.py --board_size 11 --start_id 100000 --puzzle_count 250000
+wait
+echo "Starting for boardsize 15"
+python /hpc/group/tdunn/asabath/ece790_diffusion/Project/pykakuro/src/pykakuro/generate_dataset.py --board_size 15 --start_id 100000 --puzzle_count 250000
+wait
+echo "Finished all generations"
+
+
