@@ -10,3 +10,4 @@ __pycache__/
 analysis/out/
 analysis/logs/
 .set_cache
+pack/_out/

@@ -30,3 +30,8 @@ This repository contains the code that produced and validated the `Apaxdor/kakur
 * **Seeds:** `gen_random(seed=s)` is reproducible for s >= 1 (verified: 900 pool boards regenerate character for character). The raw pool used seeds 0-349 999; seed 0 was unseeded in the original code and is not reproducible; the fixed code makes it deterministic.
 * **Not included:** the raw pool and the dataset files (on HF). The analysis scripts carry the lab's storage paths in a `_ROOT` constant near the top; edit it to run them elsewhere. Needs `pandas`, `pyarrow`, `numpy`, `scipy`, `ortools`, `datasketch`. `analysis/13`, `15`, `16` and `kakuro-craze` result handling belong to the paper's model evaluation and need results that are not part of this repository.
 
+### v3: generator families and the expansion pack
+`src/pykakuro/families.py` generates puzzles with other layouts and digit rules (symmetric human-style layouts, digits distinct only inside a run, uniqueness repair), and
+`src/pykakuro/verify.py` is the self-contained uniqueness/validity gate (`pip install -e .[verify]`). `pack/` has the resumable production driver and the pack builder; see `GENERATORS.md`
+for the families, algorithms and known biases, and `CHANGELOG.md`. Tests: `PYTHONPATH=src python -m unittest test.test_v3 -v`.
+
