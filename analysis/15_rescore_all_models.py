@@ -50,6 +50,14 @@ def load_local(folders):   # HF-generation format: puzzle/solution/response per 
             j = json.loads(l); p = j["puzzle"] if isinstance(j["puzzle"], list) else ast.literal_eval(j["puzzle"])
             out.append((key_from_grid(p), j["response"], str(j.get("grid_correct")) in ("1", "True")))
     return out
+def load_chat(folders):    # chat-completion dicts (OpenAI-style): response["choices"][0]["message"]["content"]
+    out = []
+    for d in folders:
+        f = R + d + "/responses_output.jsonl"
+        if not os.path.exists(f): continue
+        for l in open(f):
+            j = json.loads(l); out.append((key_from_text(j["puzzle"]), j["response"]["choices"][0]["message"]["content"] or "", str(j.get("grid_correct")) in ("1", "True")))
+    return out
 def load_batch(folders):   # API batch: input prompts + responses by custom_id
     out = []
     for d in folders:
@@ -73,6 +81,7 @@ RUNS = {
  "Phi-4-reasoning-plus 14B, 0-shot, 2000 tok": (load_local, ["phi4reasoning_14b_batch_0TO2500_16", "phi4reasoning_14b_batch_2500TO5K_16"]),
  "DeepSeek-R1-Qwen 14B, 2000 tok": (load_local, ["deepseek_r1_qwen_reasoning_14b_batch_0TO2500_16", "deepseek_r1_qwen_reasoning_14b_batch_2500TO5K_16"]),
  "Llama-3 thinking 8B, 2000 tok": (load_local, ["lamma3_thinking_8b_batch_0TO2500_16"]),
+ "Mistral-Small-3.1 24B (Q8_0), 512 tok": (load_chat, ["mistral_live"]),
  "Phi-4-reasoning-plus 14B, 3-shot, 512 tok (n=100)": (load_local, ["phi4reasoning_14b_batch_0TO100_3shot"]),
 }
 byk = test.set_index("key")
@@ -91,7 +100,11 @@ for name, (loader, folders) in RUNS.items():
                 stored = all(ans[r][c] == sol[r][c] for r, c in white)
                 valid = all(all(isinstance(ans[r][c], int) and 1 <= ans[r][c] <= 9 for r, c in cs) and len({ans[r][c] for r, c in cs}) == len(cs) and sum(ans[r][c] for r, c in cs) == tot for tot, cs in runs)
             except Exception: pass
-        res.append(dict(run=name, idx=int(t.idx), unique=t.status == "unique", tertile=t.difficulty_tertile, parsed=parsed, stored=stored, valid=valid, orig=orig))
+        cell = 0.0
+        if parsed:
+            try: cell = float(np.mean([ans[r][c] == sol[r][c] for r, c in white]))   # share of white cells equal to the stored solution (0 if no complete grid)
+            except Exception: cell = 0.0
+        res.append(dict(run=name, idx=int(t.idx), unique=t.status == "unique", tertile=t.difficulty_tertile, parsed=parsed, stored=stored, valid=valid, orig=orig, cell=cell))
     r = pd.DataFrame(res); per.append(r)
     if r.empty: continue
     uq, nu = r[r.unique], r[~r.unique]
